@@ -1,6 +1,6 @@
-# Core API Project
+# ToDos API Project
 
-This project is the Core API required for most of the web applications being built at the Company. This API is built using Laravel PHP Framework.
+This project is a Basic API to handle ToDos wich also works as a Core API for various web applications as it also handles Authentication and Permissions. This API is built using Laravel PHP Framework.
 
 ## Features
 
@@ -11,6 +11,8 @@ This includes the following:
 - Session Management
 
 - Users Management
+
+- ToDos CRUD
 
 
 # Laravel PHP Framework
@@ -46,11 +48,11 @@ Thank you for considering contributing to the Laravel framework! The contributio
 
 ## Setup
 
-To Get started with the project, first download the code from the repository: 
+To Get started with the project, first download or clone the code from this repository: 
 ```
-$ git clone git@bitbucket.org:fsevilla/pmd_api.git
+$ git clone https://github.com/fsevilla/todo-laravel-api.git
 ```
-Move to the new `laravel-api` folder and run `composer install`.
+Move to the new `todo-laravel-api` folder and run `composer install`.
 
 ## Run
 
