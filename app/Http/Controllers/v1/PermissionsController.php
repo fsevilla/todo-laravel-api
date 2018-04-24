@@ -44,7 +44,14 @@ class PermissionsController extends CustomController
         $userType = Auth::user()->user_type_id;
         $Permission = new Permission();
         $user_permissions = $Permission->forUserType($userType)->get()->toArray();
-        $grouped_permissions = CoreHelper::groupByKey($user_permissions, 'resource');
+        $grouped_permissions = array();
+        foreach($user_permissions as $permission) {
+            if(!isset($grouped_permissions[$permission['resource']])) {
+                $grouped_permissions[$permission['resource']] = array();
+            }
+
+            $grouped_permissions[$permission['resource']][] = $permission['permission'];
+        }
         return $grouped_permissions;
     }
 }

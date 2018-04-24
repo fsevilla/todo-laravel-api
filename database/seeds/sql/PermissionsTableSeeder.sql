@@ -1,4 +1,10 @@
 INSERT INTO permissions
 (permission) VALUES 
-('read'),
-('write');
+('create'),
+('update'),
+('view'),
+('list'),
+('delete'),
+('import'),
+('export'),
+('download');
