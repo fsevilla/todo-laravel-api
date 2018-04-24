@@ -25,15 +25,21 @@ class TodosController extends CustomController
 
     public function index(Todo $todo, Request $request)
     {
-        $todos = $todo->withStatus()->inOrder()->mine();
+        $todos = $todo->withStatus()->inOrder()->owned();
+        return $this->getItems($todos);
+    }
+
+    public function listAll(Todo $todo, Request $request)
+    {
+        $todos = $todo->withStatus()->inOrder();
         return $this->getItems($todos);
     }
 
     public function show($id)
     {
-        $todo = Todo::find($id);
-        if($todo){
-            return Response::json($todo);
+        $todo = Todo::allowed()->find($id);
+        if($todo ){
+            return $todo;
         } else {
             return Response::error(404, 'Todo not found');
         }
@@ -69,7 +75,7 @@ class TodosController extends CustomController
     public function update($id, Request $request)
     {
         try{
-            $todo = Todo::find($id);
+            $todo = Todo::allowed()->find($id);
             $todo->name = $request->input('name');
             $todo->description = $request->input('description'); 
             $todo->status_id = $request->input('status');
@@ -86,7 +92,7 @@ class TodosController extends CustomController
     public function delete($id)
     {
         try{
-            $todo = Todo::find($id);
+            $todo = Todo::owned()->find($id);
             if($todo){
                 $todo->delete();
                 return Response::data($todo);

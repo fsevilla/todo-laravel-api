@@ -108,6 +108,7 @@ Route::group([
     'middleware' => ['auth:api']
 ], function () {
     Route::get('', 'v1\TodosController@index')->middleware('can:list,todos');
+    Route::get('list', 'v1\TodosController@listAll')->middleware('role:admin');
     Route::get('{id}', 'v1\TodosController@show')->middleware('can:view,todos');
     Route::post('', 'v1\TodosController@create')->middleware('can:create,todos');
     Route::put('{id}', 'v1\TodosController@update')->middleware('can:update,todos');

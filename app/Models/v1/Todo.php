@@ -74,14 +74,32 @@ class Todo extends BaseModel
     /**
      * Filter for logged in user only
      *
-     * @method scopeMine
+     * @method scopeOwned
      * @param  QueryBuilder $query
      * @return QueryBuilder
      */
-    public function scopeMine($query)
+    public function scopeOwned($query)
     {
         $user_id = Auth::user()->id;
         $table = $this->getTable();
         return $query->where($table.'.user_id', '=', $user_id);
+    }
+
+    /**
+     * Filter todos based on User session
+     *
+     * @method scopeAllowed
+     * @param  QueryBuilder $query
+     * @return QueryBuilder
+     */
+    public function scopeAllowed($query)
+    {
+        $user_id = Auth::user()->id;
+        if($user_id>2) {
+            $table = $this->getTable();
+            return $query->where($table.'.user_id', '=', $user_id);
+        } else {
+            return $query;
+        }
     }
 }
