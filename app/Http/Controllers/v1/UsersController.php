@@ -33,10 +33,10 @@ class UsersController extends CustomController
 
     public function show($id)
     {
-        $user = User::find($id);
+        $User = new User();
+        $user = $User->withUserType()->find($id);
         if($user){
-            $user['full_name'] = $user['first_name'].' '.$user['last_name'];
-            return Response::json($user);
+            return $user;
         } else {
             return Response::error(404, 'user not found');
         }
