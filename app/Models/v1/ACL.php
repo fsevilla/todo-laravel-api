@@ -39,7 +39,7 @@ class ACL extends Model
         $userType = Auth::user()->user_type_id;
         $Permission = new Permission();
         $list = $Permission->forUserType($userType)->get()->toArray();
-        if($resource != ''){
+        if($resource !== ''){
             return CoreHelper::filterByKeyValue($list, 'resource', $resource);
         } else {
             return $list;
@@ -58,14 +58,13 @@ class ACL extends Model
     static function isAllowed($resource, $action)
     {
         $permissions = ACL::getUserPermissions($resource);
-
-        
         if($permissions !== null) {
-            $permission = $permissions[0]['permission'];
-        } else {
-            $permission = '';
+            foreach ($permissions as $permission) {
+                if($permission['permission'] === $action) {
+                    return true;
+                }
+            }
         }
-
-        return $permission == $action || $permission == 'write';
+        return false;
     }
 }

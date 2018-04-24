@@ -27,13 +27,13 @@ Route::get('/user/permissions', 'v1\PermissionsController@getUserPermissions')->
 */
 Route::group([
     'prefix' => 'users',
-    // 'middleware' => ['auth:api']
+    'middleware' => ['auth:api']
 ], function () {
-    Route::get('', 'v1\UsersController@index');
-    Route::get('{id}', 'v1\UsersController@show')->middleware('can:read,users');
-    Route::post('', 'v1\UsersController@create');
-    Route::put('{id}', 'v1\UsersController@update')->middleware('can:write,users');
-    Route::delete('{id}', 'v1\UsersController@delete')->middleware('can:write,users');
+    Route::get('', 'v1\UsersController@index')->middleware('can:list,users');
+    Route::get('{id}', 'v1\UsersController@show')->middleware('can:view,users');
+    Route::post('', 'v1\UsersController@create')->middleware('can:create,users');
+    Route::put('{id}', 'v1\UsersController@update')->middleware('can:update,users');
+    Route::delete('{id}', 'v1\UsersController@delete')->middleware('can:delete,users');
 });
 
 /*
@@ -67,57 +67,50 @@ Route::group([
 | FAQs Routes
 |--------------------------------------------------------------------------
 */
-Route::group([
-    'prefix' => 'faqs'
-], function () {
-    Route::get('', 'v1\FaqsController@index');
-    Route::get('{id}', 'v1\FaqsController@show');
-});
+// Route::group([
+//     'prefix' => 'faqs'
+// ], function () {
+//     Route::get('', 'v1\FaqsController@index');
+//     Route::get('{id}', 'v1\FaqsController@show');
+// });
 
-Route::group([
-    'prefix' => 'faqs',
-    'middleware' => ['auth:api', 'can:write,faqs']
-], function () {
-    Route::post('', 'v1\FaqsController@create');
-    Route::put('{id}', 'v1\FaqsController@update');
-    Route::delete('{id}', 'v1\FaqsController@delete');
-    Route::put('{id}/move', 'v1\FaqsController@reorganize');
-});
+// Route::group([
+//     'prefix' => 'faqs',
+//     'middleware' => ['auth:api', 'can:write,faqs']
+// ], function () {
+//     Route::post('', 'v1\FaqsController@create');
+//     Route::put('{id}', 'v1\FaqsController@update');
+//     Route::delete('{id}', 'v1\FaqsController@delete');
+//     Route::put('{id}/move', 'v1\FaqsController@reorganize');
+// });
 
 /*
 |--------------------------------------------------------------------------
 | Status Routes
 |--------------------------------------------------------------------------
 */
-Route::group([
-    'prefix' => 'status'
-], function () {
-    Route::get('', 'v1\StatusController@index');
-    Route::get('{id}', 'v1\StatusController@show');
-});
+// Route::group([
+//     'prefix' => 'status'
+// ], function () {
+//     Route::get('', 'v1\StatusController@index');
+//     Route::get('{id}', 'v1\StatusController@show');
+// });
 
 /*
 |--------------------------------------------------------------------------
 | ToDo's Routes
 |--------------------------------------------------------------------------
 */
-
 Route::group([
     'prefix' => 'todos',
-    'middleware' => ['auth:api', 'can:read,todos']
+    'middleware' => ['auth:api']
 ], function () {
-    Route::get('', 'v1\TodosController@index');
-    Route::get('{id}', 'v1\TodosController@show');
-});
-
-Route::group([
-    'prefix' => 'todos',
-    // 'middleware' => ['auth:api', 'can:write,todos']
-], function () {
-    Route::post('', 'v1\TodosController@create');
-    Route::put('{id}', 'v1\TodosController@update');
-    Route::delete('{id}', 'v1\TodosController@delete');
-    Route::put('{id}/move', 'v1\TodosController@reorganize');
+    Route::get('', 'v1\TodosController@index')->middleware('can:list,todos');
+    Route::get('{id}', 'v1\TodosController@show')->middleware('can:view,todos');
+    Route::post('', 'v1\TodosController@create')->middleware('can:create,todos');
+    Route::put('{id}', 'v1\TodosController@update')->middleware('can:update,todos');
+    Route::delete('{id}', 'v1\TodosController@delete')->middleware('can:delete,todos');
+    Route::put('{id}/move', 'v1\TodosController@reorganize')->middleware('can:update,todos');
 });
 
 
