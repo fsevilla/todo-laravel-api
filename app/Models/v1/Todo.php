@@ -3,6 +3,7 @@
 namespace App\Models\v1;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Todo extends BaseModel
 {
@@ -68,5 +69,19 @@ class Todo extends BaseModel
         return $query
                     ->select($table.'.*', $statusTable.'.status')
                     ->join('status', $table.'.status_id', '=', $statusTable.'.id');
+    }
+
+    /**
+     * Filter for logged in user only
+     *
+     * @method scopeMine
+     * @param  QueryBuilder $query
+     * @return QueryBuilder
+     */
+    public function scopeMine($query)
+    {
+        $user_id = Auth::user()->id;
+        $table = $this->getTable();
+        return $query->where($table.'.user_id', '=', $user_id);
     }
 }

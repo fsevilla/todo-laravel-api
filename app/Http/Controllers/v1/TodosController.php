@@ -24,7 +24,7 @@ class TodosController extends CustomController
 
     public function index(Todo $todo, Request $request)
     {
-        $todos = $todo->withStatus()->inOrder();
+        $todos = $todo->withStatus()->inOrder()->mine();
         return $this->getItems($todos);
     }
 
