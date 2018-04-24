@@ -31,7 +31,7 @@ class TodosController extends CustomController
 
     public function listAll(Todo $todo, Request $request)
     {
-        $todos = $todo->withStatus()->inOrder();
+        $todos = $todo->allowed()->withStatus()->inOrder();
         return $this->getItems($todos);
     }
 
