@@ -111,4 +111,45 @@ class UsersController extends CustomController
             dd($e->getMessage());
         }
     }
+
+    public function signup(Request $request)
+    {
+        // Simulate a registered code for the event
+        $validCode = 'angular5';
+
+        if($request->input('code') !== $validCode) {
+            return Response::json(['error' => 'invalid invitation code'], 400);
+        }
+
+        try{
+            if($request->input('password') === null) {
+                abort(400, 'password cannot be null');
+            }
+
+            $user_data = [];
+            $user_data['email'] = $request->input('email');
+            $user_data['username'] = $request->input('email');
+            $user_data['name'] = $request->input('name');
+            $user_data['password'] = Hash::make($request->input('password'));
+            $user_data['user_type_id'] = 4;
+            $user_data['status'] = 2;
+            $user = User::create($user_data);
+            
+            return $user;
+
+        } catch (\PDOException $e) {
+            $message = $e->getMessage();
+            if(strpos($message,'email_unique')){
+                return Response::error(400, 'email is taken');
+            } else if (strpos($message,'username_unique')){
+                return Response::error(400, 'username is taken');
+            } else if (strpos($message,'cannot be nulls')){
+                return Response::error(400, 'missing fields');
+            } else {
+                return Response::error(400, $message);
+            }
+        } catch (\Exception $e) {
+            return Response::json(['error' => $e->getMessage()], 400);
+        }
+    }
 }

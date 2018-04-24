@@ -19,6 +19,8 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/user/permissions', 'v1\PermissionsController@getUserPermissions')->middleware('auth:api');
 
+Route::post('/register', 'v1\UsersController@signup');
+
 
 /*
 |--------------------------------------------------------------------------
