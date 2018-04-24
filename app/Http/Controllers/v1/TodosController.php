@@ -7,6 +7,7 @@ use App\Providers\ResponseProvider as Response;
 use Illuminate\Http\Request;
 use App\Models\v1\Todo;
 use App\Models\v1\User;
+use Auth;
 
 class TodosController extends CustomController
 {
@@ -41,18 +42,25 @@ class TodosController extends CustomController
     public function create(Request $request)
     {
         try{
+            $user_id = Auth::user()->id;
+
             $data = [];
             $data['name'] = $request->input('name');
             $data['description'] = $request->input('description');
             $data['status_id'] = $request->input('status');
-            $data['user_id'] = 4;
+            $data['user_id'] = $user_id;
 
             $todo = Todo::create($data);
             
             return Response::json($todo);
 
         } catch (\PDOException $e) {
-            return Response::error(400, $e->getMessage());
+            $message = $e->getMessage();
+            if (strpos($message,'cannot be null')){
+                return Response::error(400, 'missing fields');
+            } else {
+                return Response::error(400, $message);
+            }
         } catch (\Exception $e) {
             return Response::error(400, $e->getMessage());
         }

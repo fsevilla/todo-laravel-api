@@ -143,7 +143,7 @@ class UsersController extends CustomController
                 return Response::error(400, 'email is taken');
             } else if (strpos($message,'username_unique')){
                 return Response::error(400, 'username is taken');
-            } else if (strpos($message,'cannot be nulls')){
+            } else if (strpos($message,'cannot be null')){
                 return Response::error(400, 'missing fields');
             } else {
                 return Response::error(400, $message);
